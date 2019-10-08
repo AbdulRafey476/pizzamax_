@@ -537,3 +537,54 @@ const add_new_add = (title, address, contact, user_id) => {
 if (location.pathname != "/checkout") {
   (".pmax-btn-lg ").css("display", "none")
 }
+
+//================================================================================================================================================
+// GET CURRENT LOCATION START
+//================================================================================================================================================
+const current_location = async () => {
+
+  const result = [];
+
+  await new Promise((res, rej) => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function success(position) {
+          res(position.coords);
+        },
+        function error(error_message) {
+          rej(error_message);
+        }
+      )
+    } else {
+      rej('geolocation is not enabled on this browser')
+    }
+
+  }).then(async res => {
+    await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${res.latitude},${res.longitude}&key=AIzaSyD5l0xa-Mwl5_PEPL86c5t3G-0VT_NdT1c`)
+      .then(res => res.json())
+
+      .then(data => {
+        result.push(data)
+      })
+      .catch(err => {
+        result.push(err)
+        console.log(err);
+      });
+  }).catch(err => {
+    result.push(err)
+    console.log(err);
+  })
+
+  return result;
+}
+//================================================================================================================================================
+// GET CURRENT LOCATION END
+//================================================================================================================================================
+
+$("#current_loc").click(function () {
+  current_location().then(res => {
+    let address = res[0].results[0].formatted_address;
+
+    $("#new_address").val(address)
+  })
+})
