@@ -205,7 +205,12 @@
                     </div>
                     <div class="form-group">
                       <label>Address</label>
-                      <input id="new_address" type="text" class="form-control" placeholder="Building & street number here" required>
+                      <div class="input-group location-search">
+                        <input id="new_address" type="text" class="form-control" placeholder="Building & street number here" required>
+                        <div class="input-group-append">
+                          <button id="current_loc" class="btn btn-secondary" type="button"> <img src="<?php echo base_url() . 'statics/images/icons/current-location.png' ?>" class="current-location-icon"> </button>
+                        </div>
+                      </div>
                     </div>
                     <div class="form-group">
                     <label>Phone Number</label>
