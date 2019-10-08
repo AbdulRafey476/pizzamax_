@@ -202,15 +202,19 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Mobile Number</label>
-											<input type="number" id="profile_number" name="profile_number" class="form-control" placeholder="Mobile number here" required>
+											<div style="position:relative">
+                      <p style="position:absolute;top:10px;left:20px;color:#444">92-</p>
+                      <input type="text" id="profile_number" name="profile_number"  class="form-control" style="padding-left:42px !important" placeholder="Mobile number here" required>
+                      </div>
+											<!-- <input type="number" id="profile_number" name="profile_number" class="form-control" placeholder="Mobile number here" required> -->
 										</div>
 									</div>
-									<div class="col-md-6">
+									<!-- <div class="col-md-6">
 										<div class="form-group">
 											<label>Landline (Optional)</label>
 											<input type="number" id="profile_landline" name="profile_landline" class="form-control" placeholder="landline number here" required>
 										</div>
-									</div>
+									</div> -->
 								</div>
 
 								<div class="row">

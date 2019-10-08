@@ -95,14 +95,14 @@
       </div>
       <div class="col-lg-3 side-cart">
         <div class="section-bg-white p-3 side-cart-border">
-          <h4 class="pmax-h4 mb-3">Delivery Location</h4>
+          <!-- <h4 class="pmax-h4 mb-3">Delivery Location</h4>
           <div class="input-group location-search">
             <input type="text" class="form-control" placeholder="Search...">
             <div class="input-group-append">
               <button class="btn btn-secondary" type="button"> <img src="<?php echo base_url() . 'statics/images/icons/current-location.png' ?>" class="current-location-icon"> </button>
             </div>
           </div>
-          <p class="text-center my-3">Yay! We deliver to your selected location</p>
+          <p class="text-center my-3">Yay! We deliver to your selected location</p> -->
 
           <div id="checkout_cart_div"></div>
 

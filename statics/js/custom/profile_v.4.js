@@ -1,6 +1,7 @@
 //================================================================================================================================================
 // WHEN DOC READY START
 //================================================================================================================================================
+let orders_array;
 $(document).ready(function() {
   get_user_info_api();
   get_user_addressess_api();
@@ -17,6 +18,7 @@ $(document).ready(function() {
 const get_user_info_api = () => {
   try {
     var customer = JSON.parse(sessionStorage["customer"]);
+    console.log("cus",customer)
   } catch (error) {
     console.log(error);
     return;
@@ -27,7 +29,7 @@ const get_user_info_api = () => {
   $("#profile_number").val(customer.phone);
   $("#profile_landline").val(customer.phone);
 
-  if (customer.fb_id != null) {
+  if (customer.fb_id !== "" ) {
     $("#profile_update_password").css("display", "none");
   }
 
@@ -258,6 +260,7 @@ const user_history_orders = () => {
       const history_orders = [];
 
       if (data.success) {
+        orders_array = data.data;
         for (let i = 0; i < data.data.length; i++) {
           let order_details = JSON.parse(data.data[i].content);
 
@@ -290,7 +293,7 @@ const user_history_orders = () => {
                 </div>
                 <div class="col-4 text-right align-self-center">
                   <button onclick="user_reorder('${
-                    data.data[i].code
+                    data.data[i].id
                   }')" class="btn pmax-btn">Reorder</button>
                 </div>
               </div>
@@ -329,7 +332,19 @@ const track_order_code = code => {
 // USER REORDERS START
 //================================================================================================================================================
 const user_reorder = code => {
-  console.log(code);
+  let menu = [];
+  orders_array.forEach((o)=>{
+    if(parseInt(o.id)=== parseInt(code)){
+      menu = JSON.parse(o.content);
+    }
+  });
+  localStorage.clear();
+  menu.forEach((m)=>{
+    localStorage.setItem(m.id, JSON.stringify(m));
+
+  });
+  alert("Items added into cart");
+  console.log(orders_array);
 };
 //================================================================================================================================================
 // USER REORDERS END

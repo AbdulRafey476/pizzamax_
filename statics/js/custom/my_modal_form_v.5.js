@@ -496,6 +496,79 @@ const register_form = (fb_id, user_name, phone, email, pwd, pwd_confirm) => {
 //================================================================================================================================================
 
 //================================================================================================================================================
+// NUMBER CHANGE MODAL FORM START
+//================================================================================================================================================
+$("#order_number_change_form").submit(function (e) {
+  e.preventDefault();
+  $("#number_change_err").html("");
+
+  let user_number = $("#number_change_input").val();
+  let order_code = localStorage.getItem("unactive_order");
+  if(user_number.indexOf("3")!==0 || user_number.length !== 10){
+    $("#number_change_err").html("Please enter valid mobile number");
+    setTimeout(() => {
+      $("#number_change_err").html("");},1500)
+    return;
+  }
+  $("#number_change_loader").removeClass("hidden");
+
+  let url, base_url;
+
+  if (location.host == 'demo.creativedrop.com' ) base_url = '/'
+  else base_url = 'https://cors-anywhere.herokuapp.com/https://demo.creativedrop.com/'
+
+  url = `${base_url}pizza_max/public/api/customer/orders/otp/resend`;
+  let form = `order_code=${order_code}&number=${user_number}` ;
+  $('#modal_number').html(user_number)
+  $("#user_number_input").val(user_number)
+  fetch(url, {
+    method: "POST",
+    headers: {
+      // Accept: "application/json",
+      // "Content-Type": "application/json",
+      'Content-Type': 'application/x-www-form-urlencoded',
+      mode: "no-cors"
+    },
+    body: form,
+    // body: JSON.stringify({ order_code: order_code, number: user_number })
+  })
+    .then(res => res.json())
+
+    .then(data => {
+      if (data.success) {
+        $(".loading").addClass("hidden");
+        $("#number_change_success").html(data.message);
+
+        setTimeout(() => {
+          $("#number_change_success").html("");
+          resetTime();
+          document.getElementById("modal_body_2").style.display="block";
+          document.getElementById("modal_body_1").style.display="none";
+
+        }, 2000);
+      } else {
+        $("#number_change_err").html(data.message);
+        setTimeout(() => {
+          $("#number_change_err").html("");
+          resetTime();
+          document.getElementById("modal_body_2").style.display="block";
+          document.getElementById("modal_body_1").style.display="none";
+
+        }, 2000);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      $(".fa-spinner").addClass("hidden");
+      $("#number_change_err").html("Network error!");
+    });
+});
+//================================================================================================================================================
+// NUMBER CHANGE MODAL FORM END
+//================================================================================================================================================
+
+
+//================================================================================================================================================
 // OPT FORM MODAL FORM START
 //================================================================================================================================================
 $("#order_otp_verification_form").submit(function (e) {
@@ -595,6 +668,7 @@ $("#resend_opt_order_verification").click(function () {
     .then(res => res.json())
 
     .then(data => {
+      resetTime();
       if (data.success) {
         $(".loading").addClass("hidden");
         $("#order_otp_success").html(data.message);

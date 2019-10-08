@@ -230,7 +230,26 @@
     <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true">
       <div class="modal-dialog modal-dialog-top" role="document">
         <div class="modal-forms modal-content section-bg-grey">
-          <div class="modal-body food-modal pattern-bg p-0">
+          <div class="modal-body food-modal pattern-bg p-0" id="modal_body_1" style="display:none">
+          <div class="section-bg-grey p-4">
+          <form id="order_number_change_form">
+                <h6 id="number_change_success" style="color:green"></h6>
+                <p class="text-center w-75 mx-auto">Please enter your mobile number to verify and proceed!</p> 
+                <div class="form-group">
+                      <label>Phone Number</label>
+                      <div style="position:relative">
+                      <p style="position:absolute;top:10px;left:20px;color:#444">92-</p>
+                      <input type="text" id="number_change_input"  class="form-control" style="padding-left:42px !important" placeholder="Mobile number here" required>
+                      </div>
+                </div>
+                <div class="text-center">
+                  <h6 id="number_change_err" style="color:red"></h6>
+                  <button type="submit" class="btn pmax-btn pmax-btn-lg w-100">Submit <i class="hidden fa fa-lg fa-spinner fa-spin" id="number_change_loader"></i></button>
+                </div>
+           </form>
+          </div>
+          </div>
+          <div class="modal-body food-modal pattern-bg p-0" id="modal_body_2" >
             <div class="section-bg-grey p-4">
               <div class="modal-food-item-logo">
                 <img src="<?php echo base_url() . 'statics/images/logo-colored.png' ?>" class="img-fluid" alt="pizza-img">
@@ -240,7 +259,11 @@
                 <h6 id="order_otp_success" style="color:green"></h6>
 
                 <h5 class="pmax-h5 pmax-grey pmax-bold text-center">Verfication</h5>
-                <p class="text-center w-75 mx-auto">A code has been sent on you mobile number. Enter the code below to proceed.</p>
+                <p class="text-center w-75 mx-auto">To confirm your order please fill OTP code sent to your mobile number: 
+                <b>+92-<span id="modal_number"></span></b></p>
+                <button class="text-center w-75 mx-auto" style="background:#fff0 !important;border:0px !important;text-align:center !important" onClick="show_number_modal()" type="button">Wrong Number? Edit Mobile Number</button>
+
+                <!-- <p class="text-center w-75 mx-auto">A code has been sent on you mobile number. Enter the code below to proceed.</p> -->
                 <div class="form-group">
                   <label>Code</label>
                   <input id="order_otp_code" type="text" class="form-control" placeholder="Enter code here" required>
@@ -251,7 +274,10 @@
                   <button type="submit" class="btn pmax-btn pmax-btn-lg w-100">Submit <i class="hidden fa fa-lg fa-spinner fa-spin"></i></button>
                 </div>
               </form>
-              <button id="resend_opt_order_verification" class="btn btn-link">Resend Code</button>
+              <div class="row">
+              <div class="col-md-6"><button id="resend_opt_order_verification" class="btn btn-link" >Resend Code</button></div>
+              <div class="col-md-6"><p id="modal_timer"></p></div>
+              </div>
             </div>
           </div>
         </div>

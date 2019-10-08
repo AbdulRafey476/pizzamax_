@@ -45,7 +45,7 @@ const get_outlets = (city) => {
                                 <div class="col-sm-8">
                                     <h6 class="pmax-h6 pmax-grey mb-2">${data.data[i].title}</h6>
                                     <p class="card-para pmax-light-grey m-0">${data.data[i].address}</p>
-                                    <p class="card-para pmax-light-grey m-0">Contact: ${data.data[i].contact}</p>
+                                    <p class="card-para pmax-light-grey m-0">Contact: ${data.data[i].city}</p>
                                 </div>
                                 <div class="col-sm-4 text-right align-self-end">
                                     <a href="${"https://www.google.ae/maps/place/" + data.data[i].lat + ',' + data.data[i].lon}" target="_blank" class="btn pmax-btn green-btn">Get Diretions</a>

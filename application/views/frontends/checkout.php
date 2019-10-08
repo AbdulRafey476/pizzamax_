@@ -173,7 +173,10 @@
 
                     <div class="form-group">
                       <label>Phone Number</label>
-                      <input type="text" id="user_number_input" class="form-control" placeholder="Mobile number here" required>
+                      <div style="position:relative">
+                      <p style="position:absolute;top:10px;left:20px;color:#444">92-</p>
+                      <input type="text" id="user_number_input"  class="form-control" style="padding-left:42px !important" placeholder="Mobile number here" required>
+                      </div>
                     </div>
                     
                   </div>
@@ -205,9 +208,12 @@
                       <input id="new_address" type="text" class="form-control" placeholder="Building & street number here" required>
                     </div>
                     <div class="form-group">
-                      <label>Contact Number</label>
-                      <input id="new_address_contact" type="number" class="form-control" placeholder="Contact number here" required>
-                    </div>
+                    <label>Phone Number</label>
+                      <div style="position:relative">
+                      <p style="position:absolute;top:10px;left:20px">92-</p>
+                      <input type="text" id="new_address_contact" class="form-control" style="padding-left:42px !important" placeholder="Mobile number here" required>
+                      </div>
+                     </div>
                   </div>
                 </form>
 

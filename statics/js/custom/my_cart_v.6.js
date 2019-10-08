@@ -1,9 +1,51 @@
 //================================================================================================================================================
 // WHEN DOC READY START
 //================================================================================================================================================
+function show_number_modal(){
+  document.getElementById("modal_body_1").style.display="block";
+  document.getElementById("modal_body_2").style.display="none";
+
+}
+let tick = true; 
+let m = 1, s=59;
+function resetTime(){
+  m=1;
+  s=59;
+}
+function timer(){
+  setInterval(()=>{
+
+    if(tick){
+      if(s===0 && m===0){
+        document.getElementById("resend_opt_order_verification").removeAttribute('disabled');
+
+      }
+      else{
+        document.getElementById("resend_opt_order_verification").setAttribute('disabled','disabled');
+
+      } 
+      if(s>0 ){
+        s--;
+      }
+      else if(s===0 && m>0){
+        s = 59;
+        m--;
+      }
+      str = ("0" + m).slice(-2)+":"+("0" + s).slice(-2) ;
+      document.getElementById("modal_timer").innerHTML = str;
+    }
+
+  },1000)
+}
+
+
 $(document).ready(function () {
   cart_items();
   user_details();
+  //texst
+  // $("#otpModal").modal({ backdrop: "static", keyboard: false });
+
+  //test end;
 });
 //================================================================================================================================================
 // WHEN DOC READY END
@@ -242,7 +284,6 @@ const onchanged_qty_items = id => {
     let item = JSON.parse(localStorage.getItem(id));
 
     item.quantity = updated_qty;
-
     localStorage.setItem(id, JSON.stringify(item));
   }, 50);
 };
@@ -395,7 +436,7 @@ const is_address = str => {
 $("#order_data_submit").click(function () {
 
   $(".loading").removeClass("hidden");
-
+ 
   var user_name, user_email, user_number, total, delivered_address, code;
 
   try {
@@ -403,18 +444,32 @@ $("#order_data_submit").click(function () {
     user_email = $("#user_email").val();
     user_number = $("#user_number_input").val();
     total = $(".grand_total").html();
+    if(user_number.indexOf("3")!==0 || user_number.length !== 10){
+      alert("Please enter valid mobile number");
+      $(".loading").addClass("hidden");
+      return;
+    }
+    document.getElementById('modal_number').innerHTML=user_number;
 
     if (auth().success) {
       if (document.querySelector('input[name="delivered_address"]:checked')) {
         delivered_address = document.querySelector('input[name="delivered_address"]:checked').value;
       } else {
-        delivered_address = $("#new_address").val()
-        add_new_add($("#new_address_title").val(), $("#new_address").val(), $("#new_address_contact").val(), auth().customer.id)
+        delivered_address = $("#new_address").val();
+        let contact =  $("#new_address_contact").val();
+        if(contact !== "" && (contact.indexOf("3")!== 0 || contact.length !== 10))
+          {
+              alert("Please enter valid mobile number");
+              $(".loading").addClass("hidden");
+              return;
+          }
+        add_new_add($("#new_address_title").val(), $("#new_address").val(),contact, auth().customer.id)
       }
     } else {
       delivered_address = $("#new_address").val()
     }
-    code = "PM" + makeid(10);
+    code = (parseInt( (Math.random()*100) + new Date().getTime()/1000)).toString(36)
+    // code = "PM" + makeid(10);
 
   } catch (err) {
     $(".loading").addClass("hidden");
@@ -433,7 +488,7 @@ $("#order_data_submit").click(function () {
   }
 
   values = JSON.stringify(values);
-
+  console.log("ddd",values);
   let url, base_url;
 
   if (location.host == 'demo.creativedrop.com') base_url = '/'
@@ -475,10 +530,13 @@ $("#order_data_submit").click(function () {
         }
 
         if (data.otp_check) {
+          
           localStorage.setItem("unactive_order", code);
           localStorage.setItem("track_order", code);
 
           $("#otpModal").modal({ backdrop: "static", keyboard: false });
+          timer();
+
         } else {
           // $("#otpModal_not").modal("toggle");
           localStorage.setItem("track_order", code);
@@ -506,7 +564,6 @@ $("#order_data_submit").click(function () {
 const add_new_add = (title, address, contact, user_id) => {
 
   let url, base_url;
-
   if (location.host == 'demo.creativedrop.com') base_url = '/'
   else base_url = 'https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/'
 
