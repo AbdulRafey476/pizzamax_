@@ -364,20 +364,26 @@
 
               <form id="target">
                 <div class="edit-address">
-                  <label>Current Location</label>
+                  <!-- <label>Current Location</label>
                   <div class="input-group location-search mb-3">
                     <input type="text" class="form-control" placeholder="Search...">
                     <div class="input-group-append">
                       <button class="btn btn-secondary" type="button"> <img src="<?php echo base_url() . 'statics/images/icons/current-location.png' ?>" class="current-location-icon"> </button>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label>Title</label>
                     <input id="new_address_title_modal" type="text" class="form-control" placeholder="Title" required>
                   </div>
                   <div class="form-group">
                     <label>Address</label>
-                    <input id="new_address_modal" type="text" class="form-control" placeholder="Building & street number here" required>
+                    <div class="input-group location-search">
+                        <input id="new_address_modal" type="text" class="form-control" placeholder="Building & street number here" required>
+                        <div class="input-group-append">
+                          <button id="current_loc2" class="btn btn-secondary" type="button"> <img src="<?php echo base_url() . 'statics/images/icons/current-location.png' ?>" class="current-location-icon"> </button>
+                        </div>
+                    </div>
+                    <!-- <input id="new_address_modal" type="text" class="form-control" placeholder="Building & street number here" required> -->
                   </div>
                   <div class="form-group">
                     <label>Contact Number</label>

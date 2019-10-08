@@ -42,6 +42,22 @@ function timer(){
 $(document).ready(function () {
   cart_items();
   user_details();
+  $("#current_loc").click(function () {
+    current_location().then(res => {
+      console.log("addd",res);
+      let address = res[0].results[0].formatted_address;
+  
+      $("#new_address").val(address)
+    })
+  })
+  $("#current_loc2").click(function () {
+    current_location().then(res => {
+      console.log("addd",res);
+      let address = res[0].results[0].formatted_address;
+  
+      $("#new_address_modal").val(address)
+    })
+  })
   //texst
   // $("#otpModal").modal({ backdrop: "static", keyboard: false });
 
@@ -54,7 +70,7 @@ $(document).ready(function () {
 //================================================================================================================================================
 // CONSTANTS START
 //================================================================================================================================================
-const base_url = location.origin;
+var base_url = location.origin;
 //================================================================================================================================================
 // CONSTANTS END
 //================================================================================================================================================
@@ -617,6 +633,34 @@ const current_location = async () => {
     }
 
   }).then(async res => {
+    if (location.host == 'demo.creativedrop.com') base_url = '/'
+    else base_url = 'https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/'
+
+     url = `${base_url}pizza_max/public/api/outlets`;
+
+     fetch(url, {
+      method: "GET",
+      headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          mode: "no-cors"
+      }
+  }) .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      let outlets = data.data;
+      let found = false ;
+      outlets.forEach((o)=>{
+        if(distance(res.latitude,res.longitude,o.lat,o.lon)<=1)
+        {
+           found = true;
+        }
+      });
+      if(!found){
+        alert("We dont deliver here!");
+    }
+    }
+  })
     await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${res.latitude},${res.longitude}&key=AIzaSyD5l0xa-Mwl5_PEPL86c5t3G-0VT_NdT1c`)
       .then(res => res.json())
 
@@ -638,10 +682,17 @@ const current_location = async () => {
 // GET CURRENT LOCATION END
 //================================================================================================================================================
 
-$("#current_loc").click(function () {
-  current_location().then(res => {
-    let address = res[0].results[0].formatted_address;
 
-    $("#new_address").val(address)
-  })
-})
+function distance(lat1,lon1,lat2,lon2) {
+  var R = 6371; // km (change this constant to get miles)
+  var dLat = (lat2-lat1) * Math.PI / 180;
+  var dLon = (lon2-lon1) * Math.PI / 180;
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = R * c;
+  // if (d>1) return Math.round(d)+"km";
+  // else if (d<=1) return Math.round(d*1000)+"m";
+  return d;
+}
