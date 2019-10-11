@@ -51,7 +51,7 @@ class promotions extends MY_Controller
         $this->load->model('food_model');
         $data['foods'] = $this->food_model->get();
 
-        $sql = $this->db->query("SELECT promotions.*, foods.name AS foods, deals.name AS deals FROM promotions LEFT JOIN foods ON promotions.food_id=foods.id LEFT JOIN deals ON promotions.deal_id=deals.id ORDER BY id DESC");
+        $sql = $this->db->query("SELECT promotions.id, promotions.food_id, promotions.deal_id, promotions.type, (CASE WHEN promotions.name IS NOT NULL THEN promotions.name ELSE 'N/A' END) AS name, (CASE WHEN promotions.description IS NOT NULL THEN promotions.description ELSE 'N/A' END) AS description, (CASE WHEN promotions.time_s != '' THEN promotions.time_s ELSE 'N/A' END) AS time_s, (CASE WHEN promotions.time_e != '' THEN promotions.time_e ELSE 'N/A' END) AS time_e, (CASE WHEN promotions.date_s != '' THEN promotions.date_s ELSE 'N/A' END) AS date_s, (CASE WHEN promotions.date_e != '' THEN promotions.date_e ELSE 'N/A' END) AS date_e, (CASE WHEN promotions.discount IS NOT NULL THEN promotions.discount ELSE 'N/A' END) AS discount, (CASE WHEN promotions.days!=',,,,,,' THEN promotions.days ELSE 'N/A' END) AS days, (CASE WHEN foods.name IS NOT NULL THEN foods.name ELSE 'N/A' END) AS foods, (CASE WHEN deals.name IS NOT NULL THEN deals.name ELSE 'N/A' END) AS deals FROM promotions LEFT JOIN foods ON promotions.food_id=foods.id LEFT JOIN deals ON promotions.deal_id=deals.id ORDER BY id DESC");
         $data['promotions'] = $sql->result();
 
         $this->template->write_view('content', 'backends/promotions/index', $data);
@@ -69,6 +69,9 @@ class promotions extends MY_Controller
         $data['deal_id'] = $_POST['deal_id'];
         $data['time_s'] = $_POST['s_time'];
         $data['time_e'] = $_POST['e_time'];
+        $data['date_s'] = $_POST['s_date'];
+        $data['date_e'] = $_POST['e_date'];
+        $data['discount'] = $_POST['discount'];
         $data['days'] = $_POST['sunday'] . ',' . $_POST['monday'] . ',' . $_POST['tuesday'] . ',' . $_POST['wednesday'] . ',' . $_POST['thursday'] . ',' . $_POST['friday'] . ',' . $_POST['saturday'];
 
         $this->promotions_model->update($data, array('id' => $id));
@@ -86,6 +89,9 @@ class promotions extends MY_Controller
         $data['deal_id'] = $_POST['deal_id'];
         $data['time_s'] = $_POST['s_time'];
         $data['time_e'] = $_POST['e_time'];
+        $data['date_s'] = $_POST['s_date'];
+        $data['date_e'] = $_POST['e_date'];
+        $data['discount'] = $_POST['discount'];
         $data['days'] = $_POST['sunday'] . ',' . $_POST['monday'] . ',' . $_POST['tuesday'] . ',' . $_POST['wednesday'] . ',' . $_POST['thursday'] . ',' . $_POST['friday'] . ',' . $_POST['saturday'];
 
         $insert_id = $this->promotions_model->insert($data);

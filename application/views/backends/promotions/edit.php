@@ -91,15 +91,29 @@ $CI = &get_instance(); ?>
           </div>
 
           <div class="form-group">
+            <label class="control-label col-sm-2">Start Date</label>
+            <div class="controls col-sm-4">
+              <input type="date" id="s_date" name="s_date" value="<?php echo $promotion[0]->date_s ?>" class="form-control">
+              <?php echo form_error('s_date'); ?>
+            </div>
+
+            <label class="control-label col-sm-2">End Date</label>
+            <div class="controls col-sm-4">
+              <input type="date" id="e_date" name="e_date" value="<?php echo $promotion[0]->date_e ?>" class="form-control">
+              <?php echo form_error('e_date'); ?>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="control-label col-sm-2">Start Time</label>
             <div class="controls col-sm-4">
-              <input type="time" id="s_time" name="s_time" value="<?php echo $promotion[0]->time_s ?>" class="form-control" required>
+              <input type="time" id="s_time" name="s_time" value="<?php echo $promotion[0]->time_s ?>" class="form-control">
               <?php echo form_error('s_time'); ?>
             </div>
 
             <label class="control-label col-sm-2">End Time</label>
             <div class="controls col-sm-4">
-              <input type="time" id="e_time" name="e_time" value="<?php echo $promotion[0]->time_e ?>" class="form-control" required>
+              <input type="time" id="e_time" name="e_time" value="<?php echo $promotion[0]->time_e ?>" class="form-control">
               <?php echo form_error('e_time'); ?>
             </div>
           </div>
@@ -112,6 +126,14 @@ $CI = &get_instance(); ?>
 
             <div class="controls col-sm-10" id="days_dropdown"></div>
 
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2">Discount</label>
+            <div class="controls col-sm-4">
+              <input type="number" id="discount" name="discount" class="form-control" value="<?php echo $promotion[0]->discount ?>" required>
+              <?php echo form_error('discount'); ?>
+            </div>
           </div>
 
           <div class="form-group">
@@ -147,19 +169,17 @@ $CI = &get_instance(); ?>
 
     var days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
 
+    var days_to_show = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
     for (let i = 0; i < days.length; i++) {
       if (data[i] == days[i]) {
-        data_obj.push(`<label class="checkbox-inline"><input type="checkbox" name="${days[i]}" checked value="${days[i]}">${jsUcfirst(days[i])}</label>`)
+        data_obj.push(`<label class="checkbox-inline"><input type="checkbox" name="${days[i]}" checked value="${days[i]}">${days_to_show[i]}</label>`)
       } else {
-        data_obj.push(`<label class="checkbox-inline"><input type="checkbox" name="${days[i]}" value="${days[i]}">${jsUcfirst(days[i])}</label>`)
+        data_obj.push(`<label class="checkbox-inline"><input type="checkbox" name="${days[i]}" value="${days[i]}">${days_to_show[i]}</label>`)
       }
     }
 
     $("#days_dropdown").html(data_obj.join(" "))
 
   });
-
-  function jsUcfirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
 </script>

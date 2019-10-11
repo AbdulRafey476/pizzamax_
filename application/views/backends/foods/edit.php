@@ -235,6 +235,14 @@ $CI =& get_instance();
 		</div>
 
 		<div class="form-group">
+			<label class="control-label col-sm-2">Only for promotion</label>
+
+			<div class="col-sm-10">
+				<input name="only_for_promo" id="only_for_promo" <?php if ($obj[0]->only_for_promo) echo "checked" ?> type="checkbox" value="true">
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label class="control-label col-sm-2"><?php echo lang('msg_active_offer')?></label>
 			<div class="col-sm-10">
 				<input type="checkbox" name="active_offer" <?php if($obj[0]->is_offered==1){echo 'checked';} ?> id="active_offer" class="js-switch"/>

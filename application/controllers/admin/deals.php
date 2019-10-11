@@ -171,6 +171,12 @@ class deals extends MY_Controller{
 			$data['is_active'] = $this->input->post('isActive') == 'on' ? 1 : 0;
 			$data['featured'] = $this->input->post('featured') == 'on' ? 1 : 0;
 
+			if($this->input->post('only_for_promo')!=null){
+				$data['only_for_promo']=1;
+			} else {
+				$data['only_for_promo']=0;
+			}
+
 			$this->form_validation->set_rules('name','name', 'trim|required|min_length[2]|max_length[60]|xss_clean');
 			$this->form_validation->set_rules('description','description', 'trim|required|min_length[2]|max_length[200]|xss_clean');
 			$this->form_validation->set_rules('price','price', 'trim|required|numeric|xss_clean');

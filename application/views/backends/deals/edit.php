@@ -308,6 +308,13 @@ function update_list_title(e){
             </label>
         </div>
 
+        <div class="form-group">
+            <label style="text-align:left;" class="control-label col-sm-offset-2 col-sm-10" for="only_for_promo">
+                <input type="checkbox" name="only_for_promo" <?=($obj->only_for_promo == 1 ? 'checked':'');?> id="only_for_promo" />
+                Only for promotion
+            </label>
+        </div>
+
 		<div class="form-group">
 			<div class="col-sm-10 col-sm-offset-2">
 				<button type="submit" class="btn btn-primary" >

@@ -178,6 +178,12 @@ class foods extends MY_Controller{
 				$data['featured']=0;
 			}
 
+			if($this->input->post('only_for_promo')!=null){
+				$data['only_for_promo']=1;
+			} else {
+				$data['only_for_promo']=0;
+			}
+
 			if($this->form_validation->run()!=false){
 				$data['name']=preg_replace('/[\r\n]+/', "", $this->input->post('name'));
 				$data['price']=$this->input->post('price');

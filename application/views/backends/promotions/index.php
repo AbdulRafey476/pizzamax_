@@ -92,15 +92,29 @@ $CI = &get_instance(); ?>
           </div>
 
           <div class="form-group">
+            <label class="control-label col-sm-2">Start Date</label>
+            <div class="controls col-sm-4">
+              <input type="date" id="s_date" name="s_date" value="" class="form-control">
+              <?php echo form_error('s_date'); ?>
+            </div>
+
+            <label class="control-label col-sm-2">End Date</label>
+            <div class="controls col-sm-4">
+              <input type="date" id="e_date" name="e_date" value="" class="form-control">
+              <?php echo form_error('e_date'); ?>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="control-label col-sm-2">Start Time</label>
             <div class="controls col-sm-4">
-              <input type="time" id="s_time" name="s_time" value="" class="form-control" required>
+              <input type="time" id="s_time" name="s_time" value="" class="form-control">
               <?php echo form_error('s_time'); ?>
             </div>
 
             <label class="control-label col-sm-2">End Time</label>
             <div class="controls col-sm-4">
-              <input type="time" id="e_time" name="e_time" value="" class="form-control" required>
+              <input type="time" id="e_time" name="e_time" value="" class="form-control">
               <?php echo form_error('e_time'); ?>
             </div>
           </div>
@@ -108,13 +122,21 @@ $CI = &get_instance(); ?>
           <div class="form-group">
             <label class="control-label col-sm-2">Days</label>
             <div class="controls col-sm-10">
-              <label class="checkbox-inline"><input type="checkbox" name="sunday" value="sunday">Sunday</label>
-              <label class="checkbox-inline"><input type="checkbox" name="monday" value="monday">Monday</label>
-              <label class="checkbox-inline"><input type="checkbox" name="tuesday" value="tuesday">Tuesday</label>
-              <label class="checkbox-inline"><input type="checkbox" name="wednesday" value="wednesday">Wednesday</label>
-              <label class="checkbox-inline"><input type="checkbox" name="thursday" value="thursday">Thursday</label>
-              <label class="checkbox-inline"><input type="checkbox" name="friday" value="friday">Friday</label>
-              <label class="checkbox-inline"><input type="checkbox" name="saturday" value="saturday">Saturday</label>
+              <label class="checkbox-inline"><input type="checkbox" name="sunday" value="sunday">Sun</label>
+              <label class="checkbox-inline"><input type="checkbox" name="monday" value="monday">Mon</label>
+              <label class="checkbox-inline"><input type="checkbox" name="tuesday" value="tuesday">Tue</label>
+              <label class="checkbox-inline"><input type="checkbox" name="wednesday" value="wednesday">Wed</label>
+              <label class="checkbox-inline"><input type="checkbox" name="thursday" value="thursday">Thu</label>
+              <label class="checkbox-inline"><input type="checkbox" name="friday" value="friday">Fri</label>
+              <label class="checkbox-inline"><input type="checkbox" name="saturday" value="saturday">Sat</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2">Discount</label>
+            <div class="controls col-sm-4">
+              <input type="number" id="discount" name="discount" class="form-control" required>
+              <?php echo form_error('discount'); ?>
             </div>
           </div>
 
@@ -159,6 +181,9 @@ $CI = &get_instance(); ?>
               <th>Deal</th>
               <th>Start Time</th>
               <th>End Time</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Discounts</th>
               <th>Days</th>
               <th style="text-align: center;">Action</th>
             </tr>
@@ -174,6 +199,9 @@ $CI = &get_instance(); ?>
                 <td><?php echo $promotion->deals ?></td>
                 <td><?php echo $promotion->time_s ?></td>
                 <td><?php echo $promotion->time_e ?></td>
+                <td><?php echo $promotion->date_s ?></td>
+                <td><?php echo $promotion->date_e ?></td>
+                <td><?php echo $promotion->discount ?></td>
                 <td><?php echo $promotion->days ?></td>
                 <td style="text-align: center;"><a class="btn btn-sm btn-danger" onclick="outlet_del('<?php echo $promotion->id ?>')">Del</a> <a class="btn btn-sm btn-success" onclick="outlet_edit('<?php echo $promotion->id ?>')">Edit</a></td>
               </tr>
