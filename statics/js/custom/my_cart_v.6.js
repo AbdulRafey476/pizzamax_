@@ -1,63 +1,60 @@
 //================================================================================================================================================
 // WHEN DOC READY START
 //================================================================================================================================================
-function show_number_modal(){
-  document.getElementById("modal_body_1").style.display="block";
-  document.getElementById("modal_body_2").style.display="none";
-
+function show_number_modal() {
+  document.getElementById("modal_body_1").style.display = "block";
+  document.getElementById("modal_body_2").style.display = "none";
 }
-let tick = true; 
-let m = 1, s=59;
-function resetTime(){
-  m=1;
-  s=59;
+let tick = true;
+let m = 1,
+  s = 59;
+function resetTime() {
+  m = 1;
+  s = 59;
 }
-function timer(){
-  setInterval(()=>{
-
-    if(tick){
-      if(s===0 && m===0){
-        document.getElementById("resend_opt_order_verification").removeAttribute('disabled');
-
+function timer() {
+  setInterval(() => {
+    if (tick) {
+      if (s === 0 && m === 0) {
+        document
+          .getElementById("resend_opt_order_verification")
+          .removeAttribute("disabled");
+      } else {
+        document
+          .getElementById("resend_opt_order_verification")
+          .setAttribute("disabled", "disabled");
       }
-      else{
-        document.getElementById("resend_opt_order_verification").setAttribute('disabled','disabled');
-
-      } 
-      if(s>0 ){
+      if (s > 0) {
         s--;
-      }
-      else if(s===0 && m>0){
+      } else if (s === 0 && m > 0) {
         s = 59;
         m--;
       }
-      str = ("0" + m).slice(-2)+":"+("0" + s).slice(-2) ;
+      str = ("0" + m).slice(-2) + ":" + ("0" + s).slice(-2);
       document.getElementById("modal_timer").innerHTML = str;
     }
-
-  },1000)
+  }, 1000);
 }
 
-
-$(document).ready(function () {
+$(document).ready(function() {
   cart_items();
   user_details();
-  $("#current_loc").click(function () {
+  $("#current_loc").click(function() {
     current_location().then(res => {
-      console.log("addd",res);
+      console.log("addd", res);
       let address = res[0].results[0].formatted_address;
-  
-      $("#new_address").val(address)
-    })
-  })
-  $("#current_loc2").click(function () {
+
+      $("#new_address").val(address);
+    });
+  });
+  $("#current_loc2").click(function() {
     current_location().then(res => {
-      console.log("addd",res);
+      console.log("addd", res);
       let address = res[0].results[0].formatted_address;
-  
-      $("#new_address_modal").val(address)
-    })
-  })
+
+      $("#new_address_modal").val(address);
+    });
+  });
   //texst
   // $("#otpModal").modal({ backdrop: "static", keyboard: false });
 
@@ -85,7 +82,7 @@ const cart_items = () => {
     newKeys = [];
   while (i--) {
     if (IsJsonString(localStorage.getItem(keys[i]))) {
-      $("#order_data_submit").css("display", "block")
+      $("#order_data_submit").css("display", "block");
       newKeys.push(keys[i]);
       values.push(localStorage.getItem(keys[i]));
     }
@@ -147,7 +144,7 @@ const cart_items = () => {
             <div class="form-group side-cart-textarea m-0">
                 <textarea class="form-control" rows="3" placeholder="Write here..."></textarea>
             </div>
-            ${place_order_btn}`
+            ${place_order_btn}`;
 
   if (values.length) {
     for (let i = 0; i < values.length; i++) {
@@ -214,8 +211,8 @@ const cart_items = () => {
           <div class="row no-gutters">
             <div class="col-3">
               <img class="card-img-top img-fluid" src="${
-          cart_item.image
-          }" alt="Card image cap">
+                cart_item.image
+              }" alt="Card image cap">
             </div>
             <div class="col-9">
               <div class="card-body">
@@ -230,16 +227,16 @@ const cart_items = () => {
                     <div class="input-group number-spinner ml-2"> 
                       <span class="input-group-btn">
                         <button onclick="onchanged_qty_items('${
-          newKeys[i]
-          }')" class="btn pmax-btn-minus" data-dir="dwn"><i class="fas fa-minus"></i></button>
+                          newKeys[i]
+                        }')" class="btn pmax-btn-minus" data-dir="dwn"><i class="fas fa-minus"></i></button>
                       </span>
                       <input readonly type="text" class="form-control text-center ${
-          newKeys[i]
-          }" id="order_qty_${i}" value="${cart_item.quantity}">
+                        newKeys[i]
+                      }" id="order_qty_${i}" value="${cart_item.quantity}">
                       <span class="input-group-btn">
                         <button onclick="onchanged_qty_items('${
-          newKeys[i]
-          }')" class="btn pmax-btn-plus" data-dir="up"><i class="fas fa-plus"></i></button>
+                          newKeys[i]
+                        }')" class="btn pmax-btn-plus" data-dir="up"><i class="fas fa-plus"></i></button>
                       </span>
                     </div>
                     <!--ATC Spinner End--> 
@@ -249,16 +246,16 @@ const cart_items = () => {
                   <div class="col-8 align-self-end">
                     <input type="hidden" id="order_price_${i}" value="${
           cart_item.price
-          }">
+        }">
                     <h6 class="pmax-h6 pmax-grey m-0">PKR ${
-          cart_item.price
-          }</h6>
+                      cart_item.price
+                    }</h6>
                   </div>
                   <div class="col-4 align-self-end text-right">
                     <!--ATC Spinner Start-->
                     <button onclick="delete_order('${
-          newKeys[i]
-          }')" class="btn del-btn"><i class="far fa-trash-alt"></i></button>
+                      newKeys[i]
+                    }')" class="btn del-btn"><i class="far fa-trash-alt"></i></button>
                   </div>
                 </div>
               </div>
@@ -317,7 +314,7 @@ const grand_total = () => {
     if ($(`#order_price_${i}`).val()) {
       total.push(
         Number($(`#order_price_${i}`).val()) *
-        Number($(`#order_qty_${i}`).val())
+          Number($(`#order_qty_${i}`).val())
       );
     } else {
       break;
@@ -386,7 +383,6 @@ const user_details = () => {
 // RENDER USER ADDRESSES START
 //================================================================================================================================================
 const user_addresses = () => {
-
   var values = [],
     keys = Object.keys(localStorage),
     i = keys.length,
@@ -394,9 +390,8 @@ const user_addresses = () => {
 
   while (i--) {
     if (is_address(localStorage.getItem(keys[i]))) {
-
-      $("#new_addresses").css("display", "none")
-      $("#add_new_address_box").css("display", "block")
+      $("#new_addresses").css("display", "none");
+      $("#add_new_address_box").css("display", "block");
 
       newKeys.push(keys[i]);
 
@@ -409,8 +404,8 @@ const user_addresses = () => {
                 <h6 class="pmax-h6 pmax-grey mb-2">${address[0]}</h6>
                 <p class="card-para pmax-light-grey m-0">${address[1]}</p>
                 <p class="card-para pmax-light-grey m-0">Contact: ${
-        address[2]
-        }</p>
+                  address[2]
+                }</p>
               </div>
               <div class="col-2 align-self-center text-right">
                 <div class="custom-control custom-radio">
@@ -449,10 +444,9 @@ const is_address = str => {
 //================================================================================================================================================
 // ORDER SUBMIT PROCCESS START
 //================================================================================================================================================
-$("#order_data_submit").click(function () {
-
+$("#order_data_submit").click(function() {
   $(".loading").removeClass("hidden");
- 
+
   var user_name, user_email, user_number, total, delivered_address, code;
 
   try {
@@ -460,33 +454,43 @@ $("#order_data_submit").click(function () {
     user_email = $("#user_email").val();
     user_number = $("#user_number_input").val();
     total = $(".grand_total").html();
-    if(user_number.indexOf("3")!==0 || user_number.length !== 10){
+    if (user_number.indexOf("3") !== 0 || user_number.length !== 10) {
       alert("Please enter valid mobile number");
       $(".loading").addClass("hidden");
       return;
     }
-    document.getElementById('modal_number').innerHTML=user_number;
+    document.getElementById("modal_number").innerHTML = user_number;
 
     if (auth().success) {
       if (document.querySelector('input[name="delivered_address"]:checked')) {
-        delivered_address = document.querySelector('input[name="delivered_address"]:checked').value;
+        delivered_address = document.querySelector(
+          'input[name="delivered_address"]:checked'
+        ).value;
       } else {
         delivered_address = $("#new_address").val();
-        let contact =  $("#new_address_contact").val();
-        if(contact !== "" && (contact.indexOf("3")!== 0 || contact.length !== 10))
-          {
-              alert("Please enter valid mobile number");
-              $(".loading").addClass("hidden");
-              return;
-          }
-        add_new_add($("#new_address_title").val(), $("#new_address").val(),contact, auth().customer.id)
+        let contact = $("#new_address_contact").val();
+        if (
+          contact !== "" &&
+          (contact.indexOf("3") !== 0 || contact.length !== 10)
+        ) {
+          alert("Please enter valid mobile number");
+          $(".loading").addClass("hidden");
+          return;
+        }
+        add_new_add(
+          $("#new_address_title").val(),
+          $("#new_address").val(),
+          contact,
+          auth().customer.id
+        );
       }
     } else {
-      delivered_address = $("#new_address").val()
+      delivered_address = $("#new_address").val();
     }
-    code = (parseInt( (Math.random()*100) + new Date().getTime()/1000)).toString(36)
+    code = parseInt(Math.random() * 100 + new Date().getTime() / 1000).toString(
+      36
+    );
     // code = "PM" + makeid(10);
-
   } catch (err) {
     $(".loading").addClass("hidden");
     alert("Please check your order details OR your cart is empty");
@@ -504,11 +508,13 @@ $("#order_data_submit").click(function () {
   }
 
   values = JSON.stringify(values);
-  console.log("ddd",values);
+  console.log("ddd", values);
   let url, base_url;
 
-  if (location.host == 'demo.creativedrop.com') base_url = '/'
-  else base_url = 'https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/'
+  if (location.host == "demo.creativedrop.com") base_url = "/";
+  else
+    base_url =
+      "https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/";
 
   url = `${base_url}pizza_max/public/api/customer/orders`;
 
@@ -546,18 +552,16 @@ $("#order_data_submit").click(function () {
         }
 
         if (data.otp_check) {
-          
           localStorage.setItem("unactive_order", code);
           localStorage.setItem("track_order", code);
 
           $("#otpModal").modal({ backdrop: "static", keyboard: false });
           timer();
-
         } else {
           // $("#otpModal_not").modal("toggle");
           localStorage.setItem("track_order", code);
           setTimeout(() => {
-            location.href = location.origin + '/track-order'
+            location.href = location.origin + "/track-order";
           }, 500);
         }
       } else {
@@ -578,10 +582,11 @@ $("#order_data_submit").click(function () {
 // ADD NEW ADDRESS START
 //================================================================================================================================================
 const add_new_add = (title, address, contact, user_id) => {
-
   let url, base_url;
-  if (location.host == 'demo.creativedrop.com') base_url = '/'
-  else base_url = 'https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/'
+  if (location.host == "demo.creativedrop.com") base_url = "/";
+  else
+    base_url =
+      "https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/";
 
   url = `${base_url}pizza_max/public/api/customer/addresses`;
 
@@ -597,7 +602,7 @@ const add_new_add = (title, address, contact, user_id) => {
     .then(res => res.json())
 
     .then(data => {
-      console.log(data)
+      console.log(data);
     })
     .catch(err => {
       console.log(err);
@@ -608,14 +613,13 @@ const add_new_add = (title, address, contact, user_id) => {
 //================================================================================================================================================
 
 if (location.pathname != "/checkout") {
-  (".pmax-btn-lg ").css("display", "none")
+  ".pmax-btn-lg ".css("display", "none");
 }
 
 //================================================================================================================================================
 // GET CURRENT LOCATION START
 //================================================================================================================================================
 const current_location = async () => {
-
   const result = [];
 
   await new Promise((res, rej) => {
@@ -627,70 +631,77 @@ const current_location = async () => {
         function error(error_message) {
           rej(error_message);
         }
-      )
+      );
     } else {
-      rej('geolocation is not enabled on this browser')
+      rej("geolocation is not enabled on this browser");
     }
+  })
+    .then(async res => {
+      if (location.host == "demo.creativedrop.com") base_url = "/";
+      else
+        base_url =
+          "https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/";
 
-  }).then(async res => {
-    if (location.host == 'demo.creativedrop.com') base_url = '/'
-    else base_url = 'https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/'
+      url = `${base_url}pizza_max/public/api/outlets`;
 
-     url = `${base_url}pizza_max/public/api/outlets`;
-
-     fetch(url, {
-      method: "GET",
-      headers: {
+      fetch(url, {
+        method: "GET",
+        headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           mode: "no-cors"
-      }
-  }) .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      let outlets = data.data;
-      let found = false ;
-      outlets.forEach((o)=>{
-        if(distance(res.latitude,res.longitude,o.lat,o.lon)<=1)
-        {
-           found = true;
         }
-      });
-      if(!found){
-        alert("We dont deliver here!");
-    }
-    }
-  })
-    await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${res.latitude},${res.longitude}&key=AIzaSyD5l0xa-Mwl5_PEPL86c5t3G-0VT_NdT1c`)
-      .then(res => res.json())
-
-      .then(data => {
-        result.push(data)
       })
-      .catch(err => {
-        result.push(err)
-        console.log(err);
-      });
-  }).catch(err => {
-    result.push(err)
-    console.log(err);
-  })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            let outlets = data.data;
+            let found = false;
+            outlets.forEach(o => {
+              if (distance(res.latitude, res.longitude, o.lat, o.lon) <= 1) {
+                found = true;
+              }
+            });
+            if (!found) {
+              alert("We dont deliver here!");
+            }
+          }
+        });
+      await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${res.latitude},${res.longitude}&key=AIzaSyD5l0xa-Mwl5_PEPL86c5t3G-0VT_NdT1c`
+      )
+        .then(res => res.json())
+
+        .then(data => {
+          result.push(data);
+        })
+        .catch(err => {
+          result.push(err);
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      result.push(err);
+      console.log(err);
+    });
 
   return result;
-}
+};
 //================================================================================================================================================
 // GET CURRENT LOCATION END
 //================================================================================================================================================
 
-
-function distance(lat1,lon1,lat2,lon2) {
+function distance(lat1, lon1, lat2, lon2) {
   var R = 6371; // km (change this constant to get miles)
-  var dLat = (lat2-lat1) * Math.PI / 180;
-  var dLon = (lon2-lon1) * Math.PI / 180;
-  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var dLat = ((lat2 - lat1) * Math.PI) / 180;
+  var dLon = ((lon2 - lon1) * Math.PI) / 180;
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
   // if (d>1) return Math.round(d)+"km";
   // else if (d<=1) return Math.round(d*1000)+"m";
