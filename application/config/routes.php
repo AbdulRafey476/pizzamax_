@@ -48,6 +48,7 @@ $route['send_message']='home/send_message';
 $route['get_deals']='home/get_deals';
 $route['get_deals_items']='home/get_deals_items';
 $route['get_foods']='home/get_foods';
+$route['get_promotions']='home/get_promotions';
 $route['get_foods_cat']='home/get_foods_cat';
 $route['get_deals_cat']='home/get_deals_cat';
 $route['deal/(:any)']='home/deal/$1';
