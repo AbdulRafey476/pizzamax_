@@ -1,6 +1,10 @@
 <?php
 $CI = &get_instance(); ?>
 
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+
 <section class="content-header">
   <h1>
     <?php echo lang('msg_dashboard'); ?>
@@ -94,13 +98,13 @@ $CI = &get_instance(); ?>
           <div class="form-group">
             <label class="control-label col-sm-2">Start Date</label>
             <div class="controls col-sm-4">
-              <input type="date" id="s_date" name="s_date" value="" class="form-control">
+              <input type="text" id="s_date" name="s_date" value="" class="form-control">
               <?php echo form_error('s_date'); ?>
             </div>
 
             <label class="control-label col-sm-2">End Date</label>
             <div class="controls col-sm-4">
-              <input type="date" id="e_date" name="e_date" value="" class="form-control">
+              <input type="text" id="e_date" name="e_date" value="" class="form-control">
               <?php echo form_error('e_date'); ?>
             </div>
           </div>
@@ -108,13 +112,13 @@ $CI = &get_instance(); ?>
           <div class="form-group">
             <label class="control-label col-sm-2">Start Time</label>
             <div class="controls col-sm-4">
-              <input type="time" id="s_time" name="s_time" value="" class="form-control">
+              <input type="text" id="s_time" name="s_time" value="" class="form-control">
               <?php echo form_error('s_time'); ?>
             </div>
 
             <label class="control-label col-sm-2">End Time</label>
             <div class="controls col-sm-4">
-              <input type="time" id="e_time" name="e_time" value="" class="form-control">
+              <input type="text" id="e_time" name="e_time" value="" class="form-control">
               <?php echo form_error('e_time'); ?>
             </div>
           </div>
@@ -202,8 +206,20 @@ $CI = &get_instance(); ?>
                 <td><?php echo $promotion->date_s ?></td>
                 <td><?php echo $promotion->date_e ?></td>
                 <td><?php echo $promotion->discount ?></td>
-                <td><?php echo $promotion->days ?></td>
-                <td style="text-align: center;"><a class="btn btn-sm btn-danger" onclick="outlet_del('<?php echo $promotion->id ?>')">Del</a> <a class="btn btn-sm btn-success" onclick="outlet_edit('<?php echo $promotion->id ?>')">Edit</a></td>
+                <td>
+                  <?php 
+                    $days_arr = explode(",",$promotion->days);
+                    echo '<select>';
+                    foreach ($days_arr as $value)
+                    {
+                      if ($value) {
+                        echo '<option>' . ucfirst(substr($value,0,3)) . '</option>';
+                      }
+                    }             
+                    echo '</select>';    
+                  ?>
+                </td>
+                <td style="text-align: center;"><a style="margin-bottom: 5px" class="btn btn-sm btn-danger" onclick="outlet_del('<?php echo $promotion->id ?>')">Del</a> <a style="margin-bottom: 5px" class="btn btn-sm btn-success" onclick="outlet_edit('<?php echo $promotion->id ?>')">Edit</a></td>
               </tr>
 
             <?php endforeach; ?>
@@ -234,4 +250,16 @@ $CI = &get_instance(); ?>
       $("#food_id").removeAttr("disabled");
     }
   })
+
+  $('#s_date').datepicker({
+    uiLibrary: 'bootstrap'
+  });
+
+  $('#e_date').datepicker({
+    uiLibrary: 'bootstrap'
+  });
+
+  $('#s_time').timepicker();
+  $('#e_time').timepicker();
+
 </script>

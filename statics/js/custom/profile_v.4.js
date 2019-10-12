@@ -2,7 +2,7 @@
 // WHEN DOC READY START
 //================================================================================================================================================
 let orders_array;
-$(document).ready(function() {
+$(document).ready(function () {
   get_user_info_api();
   get_user_addressess_api();
   user_active_orders();
@@ -18,7 +18,7 @@ $(document).ready(function() {
 const get_user_info_api = () => {
   try {
     var customer = JSON.parse(sessionStorage["customer"]);
-    console.log("cus",customer)
+    console.log("cus", customer)
   } catch (error) {
     console.log(error);
     return;
@@ -29,7 +29,7 @@ const get_user_info_api = () => {
   $("#profile_number").val(customer.phone);
   $("#profile_landline").val(customer.phone);
 
-  if (customer.fb_id !== "" ) {
+  if (customer.fb_id !== "") {
     $("#profile_update_password").css("display", "none");
   }
 
@@ -79,11 +79,12 @@ const get_user_addressess_api = () => {
           localStorage.setItem(
             "new_address_" + makeid(10),
             data.data[i].title +
-              "~" +
-              data.data[i].address +
-              "~" +
-              data.data[i].contact
+            "~" +
+            data.data[i].address +
+            "~" +
+            data.data[i].contact
           );
+
           addressess.push(`
             <div class="card mb-3">
                 <div class="card-body">
@@ -94,7 +95,7 @@ const get_user_addressess_api = () => {
                             <p class="card-para pmax-light-grey m-0">Contact: ${data.data[i].contact}</p>
                         </div>
                         <div class="col-4 align-self-center text-right">
-                            <a href="javascript:void(0);" class="pmax-para pmax-red profile-edit-btn m-0" data-toggle="modal" data-target="#addressModal">edit <i class="far fa-edit"></i></a><br>
+                            <a href="javascript:void(0);" onclick="user_address_edit('${data.data[i].id + '~' + data.data[i].title + '~' + data.data[i].address + '~' + data.data[i].contact}' )" class="pmax-para pmax-red profile-edit-btn m-0" data-toggle="modal" data-target="#addressModal">edit <i class="far fa-edit"></i></a><br>
                             <a href="javascript:void(0);" onclick="user_address_delete('${data.data[i].id}')" class="pmax-para pmax-red profile-edit-btn m-0">delete <i class="far fa-trash-alt"></i></a>
                         </div>
                     </div>
@@ -154,6 +155,23 @@ const user_address_delete = id => {
 //================================================================================================================================================
 
 //================================================================================================================================================
+// EDIT USER ADDRESS START
+//================================================================================================================================================
+const user_address_edit = (data) => {
+
+  let details = data.split("~")
+
+  $('#address_id').val(details[0]);
+
+  $("#new_address_title_modal").val(details[1])
+  $("#new_address_modal").val(details[2])
+  $("#new_address_contact_modal").val(details[3])
+}
+//================================================================================================================================================
+// EDIT USER ADDRESS END
+//================================================================================================================================================
+
+//================================================================================================================================================
 // USER ACTIVE ORDERS START
 //================================================================================================================================================
 const user_active_orders = () => {
@@ -196,8 +214,8 @@ const user_active_orders = () => {
               <div class="row">
                 <div class="col-sm-12">
                   <h6 class="pmax-h6 pmax-grey mb-1">Order ID: ${
-                    data.data[i].id
-                  }</h6>
+            data.data[i].id
+            }</h6>
                   <ul>${order_data.join(" ")}</ul>
                 </div>
               </div>
@@ -212,8 +230,8 @@ const user_active_orders = () => {
                 </div>
                 <div class="col-4 text-right align-self-center">
                   <button onclick="track_order_code('${
-                    data.data[i].code
-                  }')" class="btn pmax-btn green-btn">Track Order</button>
+            data.data[i].code
+            }')" class="btn pmax-btn green-btn">Track Order</button>
                 </div>
               </div>
             </li>
@@ -277,8 +295,8 @@ const user_history_orders = () => {
               <div class="row">
                 <div class="col-sm-12">
                   <h6 class="pmax-h6 pmax-grey mb-1">Order ID: ${
-                    data.data[i].id
-                  }</h6>
+            data.data[i].id
+            }</h6>
                   <ul>${order_data.join(" ")}</ul>
                 </div>
               </div>
@@ -293,8 +311,8 @@ const user_history_orders = () => {
                 </div>
                 <div class="col-4 text-right align-self-center">
                   <button onclick="user_reorder('${
-                    data.data[i].id
-                  }')" class="btn pmax-btn">Reorder</button>
+            data.data[i].id
+            }')" class="btn pmax-btn">Reorder</button>
                 </div>
               </div>
             </li>
@@ -320,7 +338,7 @@ const user_history_orders = () => {
 const track_order_code = code => {
   localStorage.setItem("track_order", code);
 
-  setTimeout(function() {
+  setTimeout(function () {
     location.href = `${location.origin}/track-order`;
   }, 500);
 };
@@ -333,13 +351,13 @@ const track_order_code = code => {
 //================================================================================================================================================
 const user_reorder = code => {
   let menu = [];
-  orders_array.forEach((o)=>{
-    if(parseInt(o.id)=== parseInt(code)){
+  orders_array.forEach((o) => {
+    if (parseInt(o.id) === parseInt(code)) {
       menu = JSON.parse(o.content);
     }
   });
   localStorage.clear();
-  menu.forEach((m)=>{
+  menu.forEach((m) => {
     localStorage.setItem(m.id, JSON.stringify(m));
 
   });
@@ -382,7 +400,7 @@ const update_basic_info = () => {
       if (data.success) {
         sessionStorage["customer"] = JSON.stringify(data.data[0]);
         $("#update_basicinfo_success").html("Profile updated successfully!");
-        setTimeout(function() {
+        setTimeout(function () {
           $("#update_basicinfo_success").html("");
         }, 3000);
       } else {
@@ -401,7 +419,7 @@ const update_basic_info = () => {
 //================================================================================================================================================
 // USER UPDATE FORM START
 //================================================================================================================================================
-$("#profile_form").submit(function(e) {
+$("#profile_form").submit(function (e) {
   $(".profile_form_spin").removeClass("hidden");
   e.preventDefault();
   update_basic_info();
@@ -413,7 +431,7 @@ $("#profile_form").submit(function(e) {
 //================================================================================================================================================
 // USER UPDATE PASSWORD FORM START
 //================================================================================================================================================
-$("#profile_update_password").submit(function(e) {
+$("#profile_update_password").submit(function (e) {
   $(".profile_update_password_spin").removeClass("hidden");
   e.preventDefault();
 

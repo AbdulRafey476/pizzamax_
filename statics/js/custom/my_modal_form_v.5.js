@@ -286,6 +286,7 @@ $("#target").submit(function (e) {
     let contact = $("#new_address_contact_modal").val();
     let user_id = auth().customer.id;
     let title = $("#new_address_title_modal").val();
+    let id = $("#address_id").val()
 
     localStorage.setItem(
       "new_address_" + makeid(10),
@@ -304,6 +305,13 @@ $("#target").submit(function (e) {
     else base_url = 'https://cors-anywhere.herokuapp.com/http://demo.creativedrop.com/'
 
     url = `${base_url}pizza_max/public/api/customer/addresses`;
+    let body;
+
+    if (id != "") {
+      body = { title, address, contact, user_id, id }
+    } else {
+      body = { title, address, contact, user_id }
+    }
 
     fetch(url, {
       method: "POST",
@@ -312,15 +320,16 @@ $("#target").submit(function (e) {
         "Content-Type": "application/json",
         mode: "no-cors"
       },
-      body: JSON.stringify({ title, address, contact, user_id })
+      body: JSON.stringify(body)
     })
       .then(res => res.json())
 
       .then(data => {
         if (data.success) {
           $(".loading").addClass("hidden");
-          user_addresses();
-          get_user_addressess_api_modal();
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         } else {
           $(".loading").addClass("hidden");
           console.log(data);
@@ -504,21 +513,22 @@ $("#order_number_change_form").submit(function (e) {
 
   let user_number = $("#number_change_input").val();
   let order_code = localStorage.getItem("unactive_order");
-  if(user_number.indexOf("3")!==0 || user_number.length !== 10){
+  if (user_number.indexOf("3") !== 0 || user_number.length !== 10) {
     $("#number_change_err").html("Please enter valid mobile number");
     setTimeout(() => {
-      $("#number_change_err").html("");},1500)
+      $("#number_change_err").html("");
+    }, 1500)
     return;
   }
   $("#number_change_loader").removeClass("hidden");
 
   let url, base_url;
 
-  if (location.host == 'demo.creativedrop.com' ) base_url = '/'
+  if (location.host == 'demo.creativedrop.com') base_url = '/'
   else base_url = 'https://cors-anywhere.herokuapp.com/https://demo.creativedrop.com/'
 
   url = `${base_url}pizza_max/public/api/customer/orders/otp/resend`;
-  let form = `order_code=${order_code}&number=${user_number}` ;
+  let form = `order_code=${order_code}&number=${user_number}`;
   $('#modal_number').html(user_number)
   $("#user_number_input").val(user_number)
   fetch(url, {
@@ -542,8 +552,8 @@ $("#order_number_change_form").submit(function (e) {
         setTimeout(() => {
           $("#number_change_success").html("");
           resetTime();
-          document.getElementById("modal_body_2").style.display="block";
-          document.getElementById("modal_body_1").style.display="none";
+          document.getElementById("modal_body_2").style.display = "block";
+          document.getElementById("modal_body_1").style.display = "none";
 
         }, 2000);
       } else {
@@ -551,8 +561,8 @@ $("#order_number_change_form").submit(function (e) {
         setTimeout(() => {
           $("#number_change_err").html("");
           resetTime();
-          document.getElementById("modal_body_2").style.display="block";
-          document.getElementById("modal_body_1").style.display="none";
+          document.getElementById("modal_body_2").style.display = "block";
+          document.getElementById("modal_body_1").style.display = "none";
 
         }, 2000);
       }

@@ -363,10 +363,14 @@
               </div>
 
               <form id="target">
-
-                <input type="hidden" name="address_id" id="address_id" />
-
                 <div class="edit-address">
+                  <!-- <label>Current Location</label>
+                  <div class="input-group location-search mb-3">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                      <button class="btn btn-secondary" type="button"> <img src="<?php echo base_url() . 'statics/images/icons/current-location.png' ?>" class="current-location-icon"> </button>
+                    </div>
+                  </div> -->
                   <div class="form-group">
                     <label>Title</label>
                     <input id="new_address_title_modal" type="text" class="form-control" placeholder="Title" required>
